@@ -6,6 +6,9 @@
     }
   },
   "require": {
-    "william-costa/database-manager": "^0.1.0"
+    "doctrine/orm": "^2.11.0",
+    "doctrine/dbal": "^3.2",
+    "symfony/yaml": "^5.4",
+    "symfony/cache": "^5.4"
   }
 }

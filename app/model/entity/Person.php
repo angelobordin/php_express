@@ -2,30 +2,33 @@
 
 namespace App\model\entity;
 
-use \PDOStatement;
-use WilliamCosta\DatabaseManager\Database;
+use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Entity]
+#[ORM\Table(name: 'person')]
 class Person
 {
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue]
     private int $id;
+
+    #[ORM\Column(type: 'string', length: 100)]
     private string $name;
+
+    #[ORM\Column(type: 'string', length: 11)]
     private string $cpf;
 
-    public function registerPerson()
-    {
-        $this->id = (new Database('person'))->insert([
-            'name' => $this->name,
-            'cpf' => $this->cpf,
-        ]);
+    private array $personList = array();
 
-        echo "<pre>";
-        print_r("DIABLO DAO CASLJKNFASNJFKBASFBNASJKLFHSHL");
-        print_r($this);
-        echo "</pre>";
+    public function registerPerson(Person $newPerson)
+    {
+        array_push($this->personList, $newPerson);
     }
 
-    public static function getPersonRegisters($where = null, $order = null, $limit = null, $fields = '*'): PDOStatement
+    public function getPersonRegisters($where = null, $order = null, $limit = null, $fields = '*')
     {
-        return (new Database('person'))->select($where, $order, $limit, $fields);
+
+        return $this->personList;
     }
 }

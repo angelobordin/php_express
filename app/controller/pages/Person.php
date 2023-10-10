@@ -15,7 +15,7 @@ class Person extends Page
         $newPerson = new PersonEntity;
         $newPerson->name = $postVars['name'];
         $newPerson->cpf = $postVars['cpf'];
-        $newPerson->registerPerson();
+        $newPerson->registerPerson($newPerson);
 
         return self::personList($request);
     }
@@ -24,19 +24,18 @@ class Person extends Page
     {
         $registers = '';
 
+        $personEntity = new PersonEntity();
+        $results = $personEntity->getPersonRegisters();
 
+        // while ($obPerson = $results->fetchObject(PersonEntity::class)) {
+        //     $registers .= View::render('pages/person/person', [
+        //         'id' => $obPerson->id,
+        //         'name' => $obPerson->name,
+        //         'cpf' => $obPerson->cpf,
+        //     ]);
+        // }
 
-        $results = PersonEntity::getPersonRegisters();
-
-        while ($obPerson = $results->fetchObject(PersonEntity::class)) {
-            $registers .= View::render('pages/person/person', [
-                'id' => $obPerson->id,
-                'name' => $obPerson->name,
-                'cpf' => $obPerson->cpf,
-            ]);
-        }
-
-        return $registers;
+        return $results;
     }
 
     public static function personList($request)
